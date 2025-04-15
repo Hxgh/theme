@@ -1,0 +1,31 @@
+{
+  "name": "@rfkit/theme",
+  "description": "A flexible light/dark theme switching library supporting custom theme configuration, dynamic switching, and responsive design",
+  "module": "index.js",
+  "types": "index.d.ts",
+  "author": "Hxgh",
+  "license": "MIT",
+  "version": "0.1.0",
+  "private": false,
+  "keywords": [
+    "theme",
+    "dark-mode",
+    "light-mode",
+    "theme-switcher",
+    "color-scheme",
+    "responsive-design",
+    "css-variables",
+    "design-system",
+    "typescript",
+    "customizable"
+  ],
+  "main": "index.js",
+  "scripts": {
+    "build": "tsc",
+    "test": "jest"
+  },
+  "peerDependencies": {
+    "react": ">=16.8.0",
+    "react-dom": ">=16.8.0"
+  }
+}
