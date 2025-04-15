@@ -23,7 +23,7 @@ export const getCurrentTheme = (): ThemeType => {
 /**
  * 初始化主题
  */
-export default function initTheme({
+export function initTheme({
   config = DEFAULT_THEME_CONFIGS,
   theme = getCurrentTheme(),
   mode = true,
