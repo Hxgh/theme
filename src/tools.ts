@@ -40,14 +40,9 @@ const generateCSS = (
 };
 
 // 设置主题属性
-export const setThemeAttribute = (
-  name: string,
-  modeKey: string,
-  theme: string,
-  mode: boolean
-) => {
-  document.documentElement.setAttribute(name, mode ? '' : theme);
-  document.documentElement.setAttribute(modeKey, JSON.stringify(mode));
+export const setThemeAttribute = (theme: ThemeType, mode: boolean) => {
+  document.documentElement.setAttribute(THEME_KEY, mode ? '' : theme);
+  document.documentElement.setAttribute(THEME_MODE_KEY, JSON.stringify(mode));
 };
 
 // 获取主题媒体查询

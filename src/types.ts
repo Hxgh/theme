@@ -13,8 +13,8 @@ export enum ThemeType {
 }
 
 export interface ThemeOptions {
-  name?: string;
-  modeKey?: string;
-  defaultTheme?: ThemeType;
+  readonly name: string;
+  modeKey: string;
+  defaultTheme: ThemeType;
   followSystem?: boolean;
 }
