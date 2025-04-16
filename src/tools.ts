@@ -8,7 +8,7 @@ export const initializeCSS = (
   modeKey?: string
 ) => {
   const target = `${key}-style-element-target`;
-  if (document.querySelector(`style[${target}]`)) return;
+  if (document.querySelector(`style[${target}]`)) return; // 避免重复插入
   const css = generateCSS(configs, key, modeKey);
   const styleElement = document.createElement('style');
   styleElement.textContent = css;
@@ -41,7 +41,7 @@ const generateCSS = (
 
 // 设置主题属性
 export const setThemeAttribute = (theme: ThemeType, mode: boolean) => {
-  document.documentElement.setAttribute(THEME_KEY, mode ? '' : theme);
+  document.documentElement.setAttribute(THEME_KEY, theme);
   document.documentElement.setAttribute(THEME_MODE_KEY, JSON.stringify(mode));
 };
 
