@@ -2,7 +2,7 @@ export interface ThemeConfig {
   name: string;
   dark: string;
   light: string;
-  [key: string]: string; // 支持自定义主题类型
+  [key: string]: string;
 }
 
 export type ThemeConfigs = Array<ThemeConfig>;
@@ -10,11 +10,4 @@ export type ThemeConfigs = Array<ThemeConfig>;
 export enum ThemeType {
   Dark = 'dark',
   Light = 'light',
-}
-
-export interface ThemeOptions {
-  readonly name: string;
-  modeKey: string;
-  defaultTheme: ThemeType;
-  followSystem?: boolean;
 }

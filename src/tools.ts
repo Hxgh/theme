@@ -1,5 +1,5 @@
 import { THEME_KEY, THEME_MODE_KEY } from './constants';
-import { ThemeType, type ThemeConfigs, type ThemeOptions } from './types';
+import type { ThemeType, ThemeConfigs } from './types';
 
 // 初始化主题样式
 export const initializeCSS = (
@@ -51,17 +51,4 @@ export const getThemeMedia = (): MediaQueryList | undefined => {
     return window.matchMedia('(prefers-color-scheme: dark)');
   }
   return undefined;
-};
-
-// 创建默认的主题选项
-export const createDefaultThemeOptions = (
-  customOptions?: Partial<ThemeOptions>
-): ThemeOptions => {
-  return {
-    name: THEME_KEY,
-    modeKey: THEME_MODE_KEY,
-    defaultTheme: ThemeType.Light,
-    followSystem: true,
-    ...(customOptions || {}),
-  };
 };

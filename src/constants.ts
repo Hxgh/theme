@@ -1,4 +1,4 @@
-import type { ThemeConfigs } from './types';
+import { ThemeType, type ThemeConfigs } from './types';
 
 export const DEFAULT_THEME_CONFIGS: ThemeConfigs = [
   //基本
@@ -22,3 +22,4 @@ export const DEFAULT_THEME_CONFIGS: ThemeConfigs = [
 
 export const THEME_KEY = 'theme';
 export const THEME_MODE_KEY = 'theme-follow-OS';
+export const DEFAULT_THEME = ThemeType.Light;

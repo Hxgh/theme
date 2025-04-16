@@ -1,23 +1,29 @@
-import { DEFAULT_THEME_CONFIGS, THEME_KEY, THEME_MODE_KEY } from './constants';
+import { DEFAULT_THEME, DEFAULT_THEME_CONFIGS, THEME_KEY, THEME_MODE_KEY } from './constants';
 import { initializeCSS, setThemeAttribute } from './tools';
 import { ThemeType, type ThemeConfigs } from './types';
 
-export const media = window.matchMedia('(prefers-color-scheme: dark)');
+// 获取操作系统的主题
+export const useMediaTheme = () =>
+  window.matchMedia('(prefers-color-scheme: dark)')?.matches
+    ? ThemeType.Dark
+    : ThemeType.Light;
+
+// 获取主题模式状态
+export const getCurrentThemeMode = () =>
+  JSON.parse(
+    document.documentElement.getAttribute(THEME_MODE_KEY) !== 'false'
+      ? 'true'
+      : 'false'
+  );
 
 /**
  * 获取当前主题
  */
-export const getCurrentTheme = (): ThemeType => {
-  const theme = document.documentElement.getAttribute(THEME_KEY) as ThemeType;
-  const isFollowingSystem = JSON.parse(
-    document.documentElement.getAttribute(THEME_MODE_KEY) || 'false'
-  );
-
-  if (isFollowingSystem) {
-    return media.matches ? ThemeType.Dark : ThemeType.Light;
-  }
-
-  return theme || ThemeType.Light;
+export const getCurrentTheme = (mode?: boolean): ThemeType => {
+  return mode ?? getCurrentThemeMode()
+    ? useMediaTheme()
+    : (document.documentElement.getAttribute(THEME_KEY) as ThemeType) ??
+        DEFAULT_THEME;
 };
 
 /**
@@ -32,16 +38,11 @@ export function initTheme({
   theme?: ThemeType;
   mode?: boolean;
 }): ThemeType {
-  let initialTheme = theme;
-  if (mode) {
-    const prefersDark = media.matches;
-    initialTheme = prefersDark ? ThemeType.Dark : ThemeType.Light;
-  }
+  const newTheme = mode ? useMediaTheme() : theme;
 
-  setThemeAttribute(initialTheme, true);
+  setThemeAttribute(newTheme, mode);
   initializeCSS(config, THEME_KEY, THEME_MODE_KEY);
-
-  return initialTheme;
+  return newTheme;
 }
 
 /**
@@ -50,7 +51,7 @@ export function initTheme({
 export const toggleTheme = (): ThemeType => {
   const currentTheme = getCurrentTheme();
   const newTheme =
-    currentTheme === ThemeType.Dark ? ThemeType.Light : ThemeType.Dark;
+    currentTheme !== ThemeType.Light ? ThemeType.Light : ThemeType.Dark;
   setThemeAttribute(newTheme, false);
   return newTheme;
 };
@@ -58,24 +59,11 @@ export const toggleTheme = (): ThemeType => {
 /**
  * 切换主题模式（跟随系统/手动设置）
  */
-export const toggleThemeMode = (): boolean => {
-  const currentThemeMode =
-    document.documentElement.getAttribute(THEME_MODE_KEY);
-  const isFollowingSystem = JSON.parse(currentThemeMode || 'false');
-  const newThemeMode = !isFollowingSystem;
+export const toggleThemeMode = (mode = false): boolean => {
+  const newThemeMode = mode ?? !getCurrentThemeMode();
 
-  let newTheme = document.documentElement.getAttribute(THEME_KEY) as ThemeType;
-  if (newThemeMode) {
-    newTheme = media.matches ? ThemeType.Dark : ThemeType.Light;
-  }
+  const newTheme = getCurrentTheme(newThemeMode);
 
   setThemeAttribute(newTheme, newThemeMode);
   return newThemeMode;
-};
-
-/**
- * 直接设置特定主题
- */
-export const setTheme = (theme: ThemeType, followSystem = false): void => {
-  setThemeAttribute(theme, followSystem);
 };
