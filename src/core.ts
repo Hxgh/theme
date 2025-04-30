@@ -79,17 +79,11 @@ export const toggleThemeMode = (mode?: boolean): boolean => {
 /**
  * 订阅操作系统主题变化
  */
-let mediaChangeListener: ((e: MediaQueryListEvent) => void) | null = null;
+const themeObserver = new ThemeChangeObserver();
 export const initMediaThemeChange = (
   subscribeThemeChange: (e: { theme: ThemeType; mode: boolean }) => void
 ) => {
-  // 清理之前的监听器（如果存在）
-  if (mediaChangeListener) {
-    media.removeEventListener('change', mediaChangeListener);
-  }
-
-  // 创建并保存监听器引用
-  mediaChangeListener = () => {
+  return themeObserver.subscribe((isDarkMode) => {
     const mode = getCurrentThemeMode();
     const newTheme = getCurrentTheme();
     setThemeAttribute(newTheme, mode);
@@ -97,8 +91,5 @@ export const initMediaThemeChange = (
       theme: newTheme,
       mode,
     });
-  };
-
-  // 添加监听器
-  media.addEventListener('change', mediaChangeListener);
+  });
 };

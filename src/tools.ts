@@ -25,14 +25,14 @@ const generateCSS = (
   const cssBlocks: string[] = [':root,'];
 
   const [firstConfig] = configs;
-  const themeTypes = Object.keys(firstConfig).filter((f) => f !== 'name');
+  const types = Object.keys(firstConfig).filter((f) => f !== 'name');
 
-  for (const themeType of themeTypes) {
+  for (const type of types) {
     const cssVariables = configs
-      .map((config) => `  ${config.name}: ${config[themeType]};`)
+      .map((config) => `  ${config.name}: ${config[type]};`)
       .join('\n');
-    const base = `:root[${key}='${themeType}'] {\n${cssVariables}\n}`;
-    const media = `@media (prefers-color-scheme: ${themeType}) {\n  :root[${modeKey}='true'] {\n${cssVariables}\n  }\n}`;
+    const base = `:root[${key}='${type}'] {\n${cssVariables}\n}`;
+    const media = `@media (prefers-color-scheme: ${type}) {\n  :root[${modeKey}='true'] {\n${cssVariables}\n  }\n}`;
     cssBlocks.push(`${base}\n${modeKey ? media : ''}`);
   }
 
